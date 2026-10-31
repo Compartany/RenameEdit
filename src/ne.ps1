@@ -210,7 +210,7 @@ if ($items.Count -eq 0) {
 # The order passed by "Send to" starts at the item that was right-clicked and
 # wraps around, which is not the order shown in Explorer. Sort by name, with
 # digit runs compared as numbers so that 2 comes before 10.
-function Sort-Items {
+function Get-SortedItems {
     param($Items)
 
     if ($Items.Count -le 1) { return $Items }
@@ -235,7 +235,7 @@ function Sort-Items {
     return @($entries | Sort-Object -Property Group, Name, Raw | ForEach-Object { $_.Item })
 }
 
-$items = @(Sort-Items $items)
+$items = @(Get-SortedItems $items)
 
 # The console window stays open while the editor runs; fill it with what the
 # batch is about instead of leaving it blank.
