@@ -1,5 +1,5 @@
 #
-# NameEdit shared helpers. Dot-sourced by ne.ps1, install.ps1 and restore.ps1
+# RenameEdit shared helpers. Dot-sourced by re.ps1, install.ps1 and restore.ps1
 # so that the file reading, the reserved-name list and the cross-volume move
 # live in one place.
 #
@@ -79,7 +79,7 @@ for ($n = 1; $n -le 9; $n++) {
 
 # ---------------------------------------------------------------- history
 
-# ne.ini [History] Limit: how many batches the history folder keeps. Zero
+# re.ini [History] Limit: how many batches the history folder keeps. Zero
 # turns the recording off.
 function Read-HistoryLimit {
     param([string]$IniPath)
@@ -121,7 +121,7 @@ function Write-HistoryFile {
     param([string]$Path, [string]$Time, [string]$Mode, $Steps)
 
     $lines = [System.Collections.Generic.List[string]]::new()
-    [void]$lines.Add('# NameEdit history')
+    [void]$lines.Add('# RenameEdit history')
     [void]$lines.Add('time=' + $Time)
     [void]$lines.Add('mode=' + $Mode)
     [void]$lines.Add('count=' + $Steps.Count)

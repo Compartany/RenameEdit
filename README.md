@@ -1,13 +1,13 @@
-# NameEdit
+# RenameEdit
 
 Rename files in bulk with a text editor.
 
-> [中文说明](https://github.com/Compartany/NameEdit/blob/master/README_CN.md)
+> [中文说明](https://github.com/Compartany/RenameEdit/blob/master/README_CN.md)
 
 ## Usage
 
 1. Select the files to rename in Explorer.
-2. Right-click, choose Send to, then the `NameEdit` entry.
+2. Right-click, choose Send to, then the `RenameEdit` entry.
 3. Your editor opens the list of names (sorted by name).
 4. Edit the names and close the editor.
 
@@ -18,20 +18,20 @@ too).
 
 | Entry | What you edit |
 | --- | --- |
-| `NameEdit` | File name |
-| `NameEditExt` | File name with extension |
-| `NameEditPath` | Full path, can move files to another folder |
+| `RenameEdit` | File name |
+| `RenameEditExt` | File name with extension |
+| `RenameEditPath` | Full path, can move files to another folder |
 
 ## Install
 
-Double-click `install.cmd`. It creates `ne.ini` and adds the entries to the
-"Send to" menu; reinstall after editing `ne.ini`.
+Double-click `install.cmd`. It creates `re.ini` and adds the entries to the
+"Send to" menu; reinstall after editing `re.ini`.
 
 Double-click `uninstall.cmd` to remove the entries.
 
 ## Configuration
 
-`ne.ini` is created the first time `install.cmd` runs. `Modes` selects which
+`re.ini` is created the first time `install.cmd` runs. `Modes` selects which
 entries are created, and `A`, `B`, `C` set their names.
 
 ```ini
@@ -40,9 +40,9 @@ command = notepad.exe {file}
 
 [SendTo]
 Modes = AB
-A = NameEdit
-B = NameEditExt
-C = NameEditPath
+A = RenameEdit
+B = RenameEditExt
+C = RenameEditPath
 
 [History]
 Limit = 5

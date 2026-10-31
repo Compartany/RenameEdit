@@ -1,8 +1,8 @@
 #
-# NameEdit - rename files and folders in bulk with a text editor. Invoked
+# RenameEdit - rename files and folders in bulk with a text editor. Invoked
 # from a "Send to" shortcut:
 #
-#   powershell.exe -NoProfile -ExecutionPolicy Bypass -File ne.ps1 `
+#   powershell.exe -NoProfile -ExecutionPolicy Bypass -File re.ps1 `
 #       -Mode <noExt|withExt|fullPath> <paths...>
 #
 
@@ -36,13 +36,13 @@ function Read-Close {
 # Scripts live in src/, the configuration and the entry points live in the
 # project root one level up.
 $Root = Split-Path -Parent $PSScriptRoot
-$IniPath = Join-Path $Root 'ne.ini'
+$IniPath = Join-Path $Root 're.ini'
 
 $Version = Read-Version $Root
 
 # Successful batches are recorded in the project folder, next to the
 # configuration; restore.ps1 reads the same folder. How many are kept comes
-# from ne.ini and defaults to 5.
+# from re.ini and defaults to 5.
 $HistoryDir = Join-Path $Root 'history'
 
 # While a batch is being renamed its old-to-new mapping is kept here, so a run
@@ -64,7 +64,7 @@ catch {
 
 # ----------------------------------------------------------------- config
 
-# ne.ps1 only needs the editor command; the Send to section is read by
+# re.ps1 only needs the editor command; the Send to section is read by
 # install.ps1 and has no meaning here.
 function Get-Configuration {
     $config = @{
@@ -116,7 +116,7 @@ function Get-Configuration {
 if ($null -eq $Paths -or $Paths.Count -eq 0) {
     Write-Host 'No files were selected.'
     Write-Host 'Select them in Explorer first, then pick an entry from Send to.'
-    Write-Host 'Usage: ne.ps1 -Mode <noExt|withExt|fullPath> <paths...>'
+    Write-Host 'Usage: re.ps1 -Mode <noExt|withExt|fullPath> <paths...>'
     Read-Close
     exit 1
 }
@@ -241,7 +241,7 @@ $items = @(Get-SortedItems $items)
 # batch is about instead of leaving it blank.
 Write-Host ''
 if ($Version) {
-    Write-Host ('NameEdit ' + $Version)
+    Write-Host ('RenameEdit ' + $Version)
     Write-Host ''
 }
 Write-Host ('  Mode    ' + $Mode)
@@ -254,7 +254,7 @@ Write-Host ''
 # --------------------------------------------------------------- list file
 
 $tag = [guid]::NewGuid().ToString('N').Substring(0, 8)
-$tempDir = Join-Path $env:TEMP ('NameEdit\' + $tag)
+$tempDir = Join-Path $env:TEMP ('RenameEdit\' + $tag)
 [void][IO.Directory]::CreateDirectory($tempDir)
 $listPath = Join-Path $tempDir 'names.txt'
 
@@ -564,7 +564,7 @@ $plan = [System.Collections.Generic.List[object]]::new()
 foreach ($result in $approved) {
     $item = $items[$result.Index]
     if ($result.Target -cne $item.FullPath) {
-        $temp = [IO.Path]::Combine($item.Dir, '.~ne-' + [guid]::NewGuid().ToString('N').Substring(0, 8) + '.tmp')
+        $temp = [IO.Path]::Combine($item.Dir, '.~re-' + [guid]::NewGuid().ToString('N').Substring(0, 8) + '.tmp')
         [void]$plan.Add([pscustomobject]@{
             From = $item.FullPath
             Temp = $temp

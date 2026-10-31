@@ -1,10 +1,10 @@
 #
-# NameEdit installer.
+# RenameEdit installer.
 #
 #   powershell -ExecutionPolicy Bypass -File install.ps1
 #   powershell -ExecutionPolicy Bypass -File install.ps1 -Uninstall
 #
-# Creates the ne.ini configuration on first run, then rebuilds the entries of
+# Creates the re.ini configuration on first run, then rebuilds the entries of
 # this tool in the Explorer "Send to" menu according to that configuration.
 # Safe to run repeatedly: entries this tool created are removed and recreated,
 # anything else in the Send to folder is left alone.
@@ -22,17 +22,14 @@ $ErrorActionPreference = 'Stop'
 # Scripts live in src/, the configuration and the entry points live in the
 # project root one level up.
 $Root = Split-Path -Parent $PSScriptRoot
-$IniPath = Join-Path $Root 'ne.ini'
-$ScriptPath = Join-Path $PSScriptRoot 'ne.ps1'
+$IniPath = Join-Path $Root 're.ini'
+$ScriptPath = Join-Path $PSScriptRoot 're.ps1'
 
 # Identity written to the description of every entry this tool creates. A
 # rebuild removes whatever carries it, so it has to stay unique per tool and
 # must not be derived from the project folder or from the entry names, both of
 # which the user is free to change.
-$Marker = 'NameEdit {8f0a4b6c-5d3e-4a7b-9c21-6f1e8d0b2a43}'
-
-# Description written by earlier versions; still recognised on rebuild.
-$LegacyMarker = 'NameEdit'
+$Marker = 'RenameEdit {8f0a4b6c-5d3e-4a7b-9c21-6f1e8d0b2a43}'
 
 $SendTo = Join-Path ([Environment]::GetFolderPath('ApplicationData')) 'Microsoft\Windows\SendTo'
 $PowerShellExe = Join-Path $env:SystemRoot 'System32\WindowsPowerShell\v1.0\powershell.exe'
@@ -58,9 +55,9 @@ command = notepad.exe {file}
 ; Keep the letters of the entries you want in the "Send to" menu.
 Modes = AB
 ; Menu item names. The "Send to" menu is sorted by name, not by line order.
-A = NameEdit
-B = NameEditExt
-C = NameEditPath
+A = RenameEdit
+B = RenameEditExt
+C = RenameEditPath
 
 [History]
 ; Rename batches kept for restore.cmd. 0 turns recording off.
@@ -76,7 +73,7 @@ function Get-Configuration {
 
     $config = @{
         Modes = 'AB'
-        Names = @{ A = 'NameEdit'; B = 'NameEditExt'; C = 'NameEditPath' }
+        Names = @{ A = 'RenameEdit'; B = 'RenameEditExt'; C = 'RenameEditPath' }
     }
 
     $section = ''
@@ -127,7 +124,7 @@ function New-LaunchArguments {
 
     $body = '$a = @([Environment]::GetCommandLineArgs() | Select-Object -Skip 6); ' +
         "if (Test-Path -LiteralPath $quoted -PathType Leaf) { & $quoted -Mode $Mode -Pause @a } else { " +
-        "Write-Host ''; Write-Host 'NameEdit is not where it was installed; the program folder was moved or deleted.' -ForegroundColor Yellow; " +
+        "Write-Host ''; Write-Host 'RenameEdit is not where it was installed; the program folder was moved or deleted.' -ForegroundColor Yellow; " +
         "Write-Host 'Run install.cmd from the new location to recreate the Send to entries.' -ForegroundColor Yellow; " +
         "Write-Host ''; Write-Host 'Press Enter to close.' -NoNewline; [void][Console]::ReadLine() } #"
 
@@ -161,18 +158,17 @@ function Test-ProjectScript {
     return [string]::Equals($left, $right, [StringComparison]::OrdinalIgnoreCase)
 }
 
-function Test-NameEditShortcut {
+function Test-RenameEditShortcut {
     param($Shortcut)
 
     if ($Shortcut.Description -eq $Marker) { return $true }
-    if ($Shortcut.Description -eq $LegacyMarker) { return $true }
 
     # Entries that run this project's script belong to this project even when
-    # their description is missing or was written by another version.
+    # their description is missing.
     return Test-ProjectScript (Get-ShortcutScript $Shortcut.Arguments)
 }
 
-function Get-NameEditShortcuts {
+function Get-RenameEditShortcuts {
     param($Shell)
 
     if (-not (Test-Path -LiteralPath $SendTo -PathType Container)) { return @() }
@@ -181,7 +177,7 @@ function Get-NameEditShortcuts {
     foreach ($file in (Get-ChildItem -LiteralPath $SendTo -Filter '*.lnk' -File)) {
         try {
             $shortcut = $Shell.CreateShortcut($file.FullName)
-            if (Test-NameEditShortcut $shortcut) { $found += $file.FullName }
+            if (Test-RenameEditShortcut $shortcut) { $found += $file.FullName }
         }
         catch {
             # Unreadable shortcut, leave it alone.
@@ -204,7 +200,7 @@ function Repair-ShortcutBackups {
     foreach ($file in (Get-ChildItem -LiteralPath $BackupDir -Filter '*.lnk' -File)) {
         try {
             $shortcut = $Shell.CreateShortcut($file.FullName)
-            if ($shortcut.Description -ne $Marker -and $shortcut.Description -ne $LegacyMarker) { continue }
+            if ($shortcut.Description -ne $Marker) { continue }
         }
         catch {
             # Unreadable backup, leave it alone.
@@ -244,13 +240,13 @@ Repair-ShortcutBackups $shell
 # --------------------------------------------------------------- uninstall
 
 if ($Uninstall) {
-    $removed = @(Get-NameEditShortcuts $shell)
+    $removed = @(Get-RenameEditShortcuts $shell)
     foreach ($path in $removed) {
         Remove-Item -LiteralPath $path -Force
     }
 
     if ($removed.Count -eq 0) {
-        Write-Host 'No NameEdit entries found in the "Send to" menu.'
+        Write-Host 'No RenameEdit entries found in the "Send to" menu.'
     }
     else {
         $count = $removed.Count
@@ -265,7 +261,7 @@ if ($Uninstall) {
 # ---------------------------------------------------------- configuration
 
 if ($Version) {
-    Write-Host ('NameEdit ' + $Version)
+    Write-Host ('RenameEdit ' + $Version)
     Write-Host ''
 }
 
@@ -280,7 +276,7 @@ if (-not (Test-Path -LiteralPath $IniPath -PathType Leaf)) {
         exit 1
     }
 
-    Write-Host ('ne.ini not found, created: ' + $IniPath)
+    Write-Host ('re.ini not found, created: ' + $IniPath)
     Write-Host ''
     Write-Host 'Edit it first, or press Enter for the defaults.'
     Write-Host 'Press Q to quit.'
@@ -347,7 +343,7 @@ if (Test-Path -LiteralPath $BackupDir) {
 }
 
 $backups = [System.Collections.Generic.List[object]]::new()
-foreach ($path in (Get-NameEditShortcuts $shell)) {
+foreach ($path in (Get-RenameEditShortcuts $shell)) {
     try {
         [void][IO.Directory]::CreateDirectory($BackupDir)
         $backup = Join-Path $BackupDir ([IO.Path]::GetFileName($path))

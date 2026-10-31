@@ -1,9 +1,9 @@
 #
-# NameEdit restore - undo a recent rename.
+# RenameEdit restore - undo a recent rename.
 #
 #   powershell -ExecutionPolicy Bypass -File restore.ps1 [-Index <n>]
 #
-# Lists the batches recorded by ne.ps1, newest first, and renames the entries
+# Lists the batches recorded by re.ps1, newest first, and renames the entries
 # of the chosen batch back to their original names. Entries whose renamed file
 # is gone, or whose original name is taken, are skipped so the rest still
 # completes. A completed restore is recorded as a batch of its own, so it can
@@ -21,9 +21,9 @@ $ErrorActionPreference = 'Stop'
 . (Join-Path $PSScriptRoot 'common.ps1')
 
 # Scripts live in src/, the history folder lives in the project root and is
-# shared with ne.ps1.
+# shared with re.ps1.
 $Root = Split-Path -Parent $PSScriptRoot
-$IniPath = Join-Path $Root 'ne.ini'
+$IniPath = Join-Path $Root 're.ini'
 $HistoryDir = Join-Path $Root 'history'
 
 $HistoryLimit = Read-HistoryLimit $IniPath
@@ -31,7 +31,7 @@ $HistoryLimit = Read-HistoryLimit $IniPath
 # Shown in the header so the copy in use can be told apart from another one.
 $Version = Read-Version $Root
 
-# Written by ne.ps1 while a batch is being renamed and removed once that
+# Written by re.ps1 while a batch is being renamed and removed once that
 # batch is finished.
 $PendingPath = Join-Path $HistoryDir 'pending.txt'
 
@@ -158,7 +158,7 @@ if ($null -ne $pending) { $entries += $pending }
 $entries += @(Get-HistoryEntries)
 
 if ($Version) {
-    Write-Host ('NameEdit ' + $Version)
+    Write-Host ('RenameEdit ' + $Version)
     Write-Host ''
     Write-Host 'Restore:'
 }
@@ -237,7 +237,7 @@ foreach ($step in $entry.Steps) {
 
     $isDir = [IO.Directory]::Exists($step.To)
     $temp = [IO.Path]::Combine([IO.Path]::GetDirectoryName($step.To),
-        '.~ne-' + [guid]::NewGuid().ToString('N').Substring(0, 8) + '.tmp')
+        '.~re-' + [guid]::NewGuid().ToString('N').Substring(0, 8) + '.tmp')
 
     try {
         Move-FsItem $step.To $temp $isDir

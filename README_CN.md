@@ -1,11 +1,11 @@
-# NameEdit
+# RenameEdit
 
 通过文本编辑器批量重命名文件。
 
 ## 用法
 
 1. 在资源管理器中选中需要重命名的文件。
-2. 右键「发送到」选择 `NameEdit` 菜单项。
+2. 右键「发送到」选择 `RenameEdit` 菜单项。
 3. 编辑器打开文件名列表（按名称排序）。
 4. 编辑文件名后关闭编辑器。
 
@@ -15,19 +15,19 @@
 
 | 入口 | 编辑内容 |
 | --- | --- |
-| `NameEdit` | 文件名 |
-| `NameEditExt` | 文件名（含扩展名） |
-| `NameEditPath` | 完整路径，可以把文件移到其他文件夹 |
+| `RenameEdit` | 文件名 |
+| `RenameEditExt` | 文件名（含扩展名） |
+| `RenameEditPath` | 完整路径，可以把文件移到其他文件夹 |
 
 ## 安装
 
-双击 `install.cmd`，它会生成 `ne.ini` 并把入口加到「发送到」菜单；修改 `ne.ini` 后需重新安装。
+双击 `install.cmd`，它会生成 `re.ini` 并把入口加到「发送到」菜单；修改 `re.ini` 后需重新安装。
 
 双击 `uninstall.cmd` 删除入口。
 
 ## 配置
 
-`ne.ini` 在首次运行 `install.cmd` 时生成。`Modes` 决定生成哪些入口，`A`、`B`、`C` 用于设置入口名称。
+`re.ini` 在首次运行 `install.cmd` 时生成。`Modes` 决定生成哪些入口，`A`、`B`、`C` 用于设置入口名称。
 
 ```ini
 [Editor]
@@ -35,9 +35,9 @@ command = notepad.exe {file}
 
 [SendTo]
 Modes = AB
-A = NameEdit
-B = NameEditExt
-C = NameEditPath
+A = RenameEdit
+B = RenameEditExt
+C = RenameEditPath
 
 [History]
 Limit = 5

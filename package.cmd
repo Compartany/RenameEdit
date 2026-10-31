@@ -6,7 +6,7 @@ if /i "%~1"=="--no-pause" set "NOPAUSE=1"
 
 set "ROOT=%~dp0"
 set "DIST=%ROOT%dist"
-set "STAGE=%DIST%\NameEdit"
+set "STAGE=%DIST%\RenameEdit"
 set "VERSION="
 set /p VERSION=<"%ROOT%version.txt"
 
@@ -16,7 +16,7 @@ if not defined VERSION goto :badversion
 echo(%VERSION%| findstr /r /c:"^v[0-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9]*$" >nul
 if errorlevel 1 goto :badversion
 
-set "ZIP=%DIST%\NameEdit-%VERSION%.zip"
+set "ZIP=%DIST%\RenameEdit-%VERSION%.zip"
 
 if exist "%STAGE%" rmdir /s /q "%STAGE%"
 if exist "%ZIP%" del /q "%ZIP%"
@@ -29,7 +29,7 @@ copy /y "%ROOT%README.md" "%STAGE%\" >nul || goto :fail
 copy /y "%ROOT%README_CN.md" "%STAGE%\" >nul || goto :fail
 copy /y "%ROOT%version.txt" "%STAGE%\" >nul || goto :fail
 copy /y "%ROOT%src\common.ps1" "%STAGE%\src\" >nul || goto :fail
-copy /y "%ROOT%src\ne.ps1" "%STAGE%\src\" >nul || goto :fail
+copy /y "%ROOT%src\re.ps1" "%STAGE%\src\" >nul || goto :fail
 copy /y "%ROOT%src\install.ps1" "%STAGE%\src\" >nul || goto :fail
 copy /y "%ROOT%src\restore.ps1" "%STAGE%\src\" >nul || goto :fail
 
