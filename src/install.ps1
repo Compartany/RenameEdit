@@ -446,7 +446,7 @@ else {
         $note = @{
             noExt    = 'file name'
             withExt  = 'file name with extension'
-            fullPath = 'full path, can move files to another folder'
+            fullPath = 'full path, can move files to another directory'
         }[$entry.Mode]
         Write-Host ('  ' + $entry.Name.PadRight(19) + '- ' + $note)
     }

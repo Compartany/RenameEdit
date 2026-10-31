@@ -345,7 +345,7 @@ function Test-List {
             }
         }
         else {
-            # Only the full path mode may move a file to another folder.
+            # Only the full path mode may move a file to another directory.
             if ($line.IndexOf('\') -ge 0 -or $line.IndexOf('/') -ge 0) {
                 [void]$problems.Add("Line $no : a name cannot contain a path separator.")
                 continue

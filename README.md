@@ -2,6 +2,8 @@
 
 Rename files in bulk with a text editor.
 
+> Use it with an advanced text editor...
+>
 > [中文说明](https://github.com/Compartany/RenameEdit/blob/master/README_CN.md)
 
 ## Usage
@@ -20,7 +22,7 @@ too).
 | --- | --- |
 | `RenameEdit` | File name |
 | `RenameEditExt` | File name with extension |
-| `RenameEditPath` | Full path, can move files to another folder |
+| `RenameEditPath` | Full path, can move files to another directory |
 
 ## Install
 
