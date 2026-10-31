@@ -16,7 +16,7 @@ if not defined VERSION goto :badversion
 echo(%VERSION%| findstr /r /c:"^v[0-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9]*$" >nul
 if errorlevel 1 goto :badversion
 
-set "ZIP=%DIST%\NameEdit %VERSION%.zip"
+set "ZIP=%DIST%\NameEdit-%VERSION%.zip"
 
 if exist "%STAGE%" rmdir /s /q "%STAGE%"
 if exist "%ZIP%" del /q "%ZIP%"
