@@ -165,3 +165,19 @@ function Add-HistoryEntry {
         Write-Host ('Could not record the history entry: ' + $_.Exception.Message) -ForegroundColor Yellow
     }
 }
+
+# ---------------------------------------------------------------- version
+
+# version.txt at the project root holds the only version string; scripts and
+# the packager read it from here so the copies cannot drift apart. Returns
+# $null when the file is missing or empty.
+function Read-Version {
+    param([string]$Root)
+
+    $path = Join-Path $Root 'version.txt'
+    if (-not (Test-Path -LiteralPath $path -PathType Leaf)) { return $null }
+
+    $text = (Read-TextFile $path).Trim()
+    if ($text -eq '') { return $null }
+    return $text
+}

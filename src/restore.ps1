@@ -28,6 +28,9 @@ $HistoryDir = Join-Path $Root 'history'
 
 $HistoryLimit = Read-HistoryLimit $IniPath
 
+# Shown in the header so the copy in use can be told apart from another one.
+$Version = Read-Version $Root
+
 # Written by ne.ps1 while a batch is being renamed and removed once that
 # batch is finished.
 $PendingPath = Join-Path $HistoryDir 'pending.txt'
@@ -154,7 +157,14 @@ $pending = Read-PendingFile $PendingPath
 if ($null -ne $pending) { $entries += $pending }
 $entries += @(Get-HistoryEntries)
 
-Write-Host 'NameEdit restore'
+if ($Version) {
+    Write-Host ('NameEdit ' + $Version)
+    Write-Host ''
+    Write-Host 'Restore:'
+}
+else {
+    Write-Host 'Restore:'
+}
 Write-Host ''
 
 if ($entries.Count -eq 0) {

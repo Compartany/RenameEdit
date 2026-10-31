@@ -37,6 +37,10 @@ $LegacyMarker = 'NameEdit'
 $SendTo = Join-Path ([Environment]::GetFolderPath('ApplicationData')) 'Microsoft\Windows\SendTo'
 $PowerShellExe = Join-Path $env:SystemRoot 'System32\WindowsPowerShell\v1.0\powershell.exe'
 
+# Shown in the install report so the installed copy can be told apart from
+# another one.
+$Version = Read-Version $Root
+
 # Entries are moved here while the menu is being rebuilt. Keeping them out of
 # the Send to folder leaves no stray files there if the run is cut short, and
 # the ".lnk" name lets the description be read back on the next run.
@@ -259,6 +263,11 @@ if ($Uninstall) {
 }
 
 # ---------------------------------------------------------- configuration
+
+if ($Version) {
+    Write-Host ('NameEdit ' + $Version)
+    Write-Host ''
+}
 
 if (-not (Test-Path -LiteralPath $IniPath -PathType Leaf)) {
     try {

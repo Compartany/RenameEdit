@@ -38,6 +38,8 @@ function Read-Close {
 $Root = Split-Path -Parent $PSScriptRoot
 $IniPath = Join-Path $Root 'ne.ini'
 
+$Version = Read-Version $Root
+
 # Successful batches are recorded in the project folder, next to the
 # configuration; restore.ps1 reads the same folder. How many are kept comes
 # from ne.ini and defaults to 5.
@@ -234,6 +236,20 @@ function Sort-Items {
 }
 
 $items = @(Sort-Items $items)
+
+# The console window stays open while the editor runs; fill it with what the
+# batch is about instead of leaving it blank.
+Write-Host ''
+if ($Version) {
+    Write-Host ('NameEdit ' + $Version)
+    Write-Host ''
+}
+Write-Host ('  Mode    ' + $Mode)
+Write-Host ('  Items   ' + $items.Count)
+Write-Host ('  Editor  ' + $config.Editor.Replace('{file}', '').Trim())
+Write-Host ''
+Write-Host '  Edit the names, save and close the editor to apply.'
+Write-Host ''
 
 # --------------------------------------------------------------- list file
 
