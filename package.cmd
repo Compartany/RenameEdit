@@ -25,6 +25,7 @@ mkdir "%STAGE%\src"
 copy /y "%ROOT%install.cmd" "%STAGE%\" >nul || goto :fail
 copy /y "%ROOT%uninstall.cmd" "%STAGE%\" >nul || goto :fail
 copy /y "%ROOT%restore.cmd" "%STAGE%\" >nul || goto :fail
+copy /y "%ROOT%re.cmd" "%STAGE%\" >nul || goto :fail
 copy /y "%ROOT%README.md" "%STAGE%\" >nul || goto :fail
 copy /y "%ROOT%README_CN.md" "%STAGE%\" >nul || goto :fail
 copy /y "%ROOT%version.txt" "%STAGE%\" >nul || goto :fail
@@ -47,7 +48,7 @@ exit /b 0
 
 :badversion
 echo.
-echo version.txt is missing or does not look like v1.0.0.
+echo version.txt is missing or does not look like vX.Y.Z.
 echo.
 if not defined NOPAUSE pause
 exit /b 1

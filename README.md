@@ -2,9 +2,17 @@
 
 Rename files in bulk with a text editor.
 
-> Use it with an advanced text editor...
->
-> [中文说明](https://github.com/Compartany/RenameEdit/blob/master/README_CN.md)
+[中文说明](https://github.com/Compartany/RenameEdit/blob/master/README_CN.md)
+
+Light and powerful. Select the files to start, close the editor to finish. No
+dependencies to install, no environment to configure, no syntax to learn.
+
+The file list is plain text: regex replacement, multiple selections, column
+editing, text conversion, sorting, numbering, macros and every other text tool
+apply directly, and the whole list can go to an AI as well.
+
+The only limit is what you can do with text, not a preset feature set as in
+comparable tools.
 
 ## Usage
 
@@ -59,22 +67,16 @@ Requires Windows PowerShell 5.1, included in Windows.
 ## Limits
 
 - Renaming a very large number of files can hit the command line length limit.
-- Moving this folder breaks the shortcuts; run `install.cmd` again to restore
-  them.
+- Moving the install folder breaks the entries; run `install.cmd` again
+  to repair them.
 
 ## Command line
 
-Besides the Send to menu, the entry points can be run from a command prompt:
+| Command | Purpose |
+| --- | --- |
+| `re.cmd [-Mode <mode>] <files…>` | Opens the rename list; `-Mode` defaults to `noExt` |
+| `restore.cmd [-Index <n>]` | Restores a batch (1 is the newest); without `-Index` it lists them and asks |
+| `install.cmd` | Rebuilds the Send to entries (creates `re.ini` on first run) |
+| `uninstall.cmd` | Removes the Send to entries this tool added |
 
-```bat
-restore.cmd
-restore.cmd -Index 1
-install.cmd
-uninstall.cmd
-```
-
-Add `--no-pause` to skip the final key prompt, as in
-`restore.cmd -Index 1 --no-pause`.
-
-`-Index` is the batch number in that list (1 is the newest); without it,
-`restore.cmd` lists the batches and asks.
+Add `--no-pause` to any command to skip the final key prompt.

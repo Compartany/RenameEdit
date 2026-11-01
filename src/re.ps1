@@ -1,6 +1,6 @@
 #
 # RenameEdit - rename files and folders in bulk with a text editor. Invoked
-# from a "Send to" shortcut:
+# from a "Send to" shortcut, or from re.cmd in the project root:
 #
 #   powershell.exe -NoProfile -ExecutionPolicy Bypass -File re.ps1 `
 #       -Mode <noExt|withExt|fullPath> <paths...>
@@ -116,7 +116,7 @@ function Get-Configuration {
 if ($null -eq $Paths -or $Paths.Count -eq 0) {
     Write-Host 'No files were selected.'
     Write-Host 'Select them in Explorer first, then pick an entry from Send to.'
-    Write-Host 'Usage: re.ps1 -Mode <noExt|withExt|fullPath> <paths...>'
+    Write-Host 'Usage: re.cmd [-Mode <noExt|withExt|fullPath>] <paths...>'
     Read-Close
     exit 1
 }
